@@ -43,10 +43,9 @@ int main()
     struct stack stk = {NULL, 0, 0};
     stack_init (&stk);
 
-    char* expression = "aa14 3 *";
+    char* expression = "\t4 4 + 2 3 + - 6 * 9 -\n";
 
     int res = calculate (&stk, expression);
-    printf("res = %d\n\n", res);
 
     stack_memory_free (&stk);
 
@@ -101,12 +100,13 @@ int calculate (struct stack* stk, char* exp)
                 break;
 
             case '\n':
-                printf ("result = %d\n", pop (stk, &result));
+                pop (stk, &result);
+                printf ("result = %d\n", result);
                 break;
 
             default:
                 printf ("ERROR: expression contains invalid symbols\n");
-                break;
+                return -1;
             }
 
         exp = extract_operand (exp);
