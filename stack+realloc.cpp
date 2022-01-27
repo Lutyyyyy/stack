@@ -53,8 +53,8 @@ int main()
     stack_push (&stk, 'a');
     stack_push (&stk, 'b');
     stack_push (&stk, 'c');
-    stack_push (&stk, 'x');
-    stack_push (&stk, 'z');
+//    stack_push (&stk, 'x');
+//    stack_push (&stk, 'z');
 
     stack_dump (&stk);
 
@@ -114,14 +114,15 @@ bool stack_push (struct stack* stk, type_of_data number)
         (stk->array_size)++;
         }
 
+    if (! stack_verify (stk))
+        increase_stack_size (stk);
+
     if (stack_verify (stk))
         {
         printf("stack push completed\n\n");
         return true;
         }
-
     else
-        (stk->array_size)--;
         return false;
     }
 
@@ -195,7 +196,7 @@ bool stack_verify (struct stack* stk)
         printf("WARNING: array_size = %d (no elements to pop)\n", stk->array_size);
 
     if (stk->array_size == stk->Max_size)
-        printf("WARNING: array_size = Max_size = %d (elements cannot be pushed)\n", stk->array_size);
+        printf("WARNING: array_size = Max_size = %d (element cannot be pushed)\n", stk->array_size);
 
     if (stk->array_size > stk->Max_size)
         {
