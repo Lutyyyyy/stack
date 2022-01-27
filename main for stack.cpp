@@ -88,7 +88,7 @@ int main()
 bool stack_init (struct stack* stk)
     {
     stk->array_size = 0;
-    stk->Max_size = 1;
+    stk->Max_size = 2;
     stk->array = (type_of_data*) calloc (stk->Max_size, sizeof (*stk->array));
 
     return true;
@@ -179,12 +179,17 @@ bool stack_verify (struct stack* stk)
         }
 
     if (stk->array_size < 0)
+        {
         printf("ERROR: array_size = %d (must be >= 0)\n", stk->array_size);
         verification = false;
+        }
+
 
     if (stk->array_size > stk->Max_size)
+        {
         printf("ERROR: stack is full (array_size > Max_size (%d > %d)\n", stk->array_size, stk->Max_size);
         verification = false;
+        }
 
     if (stk->array == NULL)
         {
@@ -192,8 +197,9 @@ bool stack_verify (struct stack* stk)
         verification = false;
         }
 
+
     if (verification)
-        printf("stack verification successfully completed");
+        printf("stack verification successfully completed\n");
 
     return verification;
     }
