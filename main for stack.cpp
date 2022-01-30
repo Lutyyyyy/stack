@@ -111,18 +111,14 @@ bool stack_push (struct stack* stk, type_of_data number)
     {
     stack_verify (stk);
 
-    if (stk->array_size < stk->Max_size)
-        {
-        *(stk->array + stk->array_size) = number;
-        (stk->array_size)++;
-        }
-
-    else
+    if (stk->array_size >= stk->Max_size)
         {
         printf("ERROR: stack is full\n");
-
-        return false;
+        increase_stack_size (stk);
         }
+
+    *(stk->array + stk->array_size) = number;
+    (stk->array_size)++;
 
     stack_verify (stk);
 

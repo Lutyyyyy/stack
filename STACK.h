@@ -1,4 +1,3 @@
-
 //=============================================================================
 
 struct stack
@@ -29,12 +28,10 @@ void stack_dump (const struct stack* stk);
 
 //=============================================================================
 
-
-
 bool stack_init (struct stack* stk)
     {
     stk->array_size = 0;
-    stk->Max_size = 100;
+    stk->Max_size = 2;
     stk->array = (type_of_data*) calloc (stk->Max_size, sizeof (*stk->array));
 
     return true;
@@ -56,20 +53,26 @@ bool stack_memory_free (struct stack* stk)
 bool stack_push (struct stack* stk, type_of_data number)
     {
     if (stack_verify (stk))
-        {
-        *(stk->array + stk->array_size) = number;
-        (stk->array_size)++;
-        }
+       {
+       if (stk->array_size >= stk->Max_size)
+           {
+           printf("ERROR: stack is full\n");
+           increase_stack_size (stk);
+           }
 
-    if (! stack_verify (stk))
-        increase_stack_size (stk);
+       *(stk->array + stk->array_size) = number;
+       (stk->array_size)++;
+       }
+
 
     if (stack_verify (stk))
         {
-        printf("stack push completed\n\n");
+        printf (FORMAT_OF_DATA " pushed\n\n", number);
         return true;
         }
+
     else
+        (stk->array_size)--;
         return false;
     }
 
@@ -81,7 +84,7 @@ bool stack_pop (struct stack* stk, type_of_data* number)
         {
         if (stk->array_size == 0)
             {
-            printf("ERROR: stack is empty, element cannot be popped\n");
+            printf ("ERROR: stack is empty, element cannot be popped\n");
             return false;
             }
         else
@@ -93,7 +96,7 @@ bool stack_pop (struct stack* stk, type_of_data* number)
 
     if (stack_verify (stk))
         {
-        printf("stack pop completed\n\n");
+        printf (FORMAT_OF_DATA " popped\n\n", *number);
         return true;
         }
 
@@ -106,17 +109,17 @@ bool stack_pop (struct stack* stk, type_of_data* number)
 void stack_dump (const struct stack* stk)
     {
     if (stk->array_size > stk->Max_size)
-        printf("WARNING: array_size > Max_size (%d > %d)\n", stk->array_size, stk->Max_size);
+        printf ("WARNING: array_size > Max_size (%d > %d)\n", stk->array_size, stk->Max_size);
     else
-        printf("array_size = [%d]\n\n", stk->array_size);
+        printf ("array_size = [%d]\n\n", stk->array_size);
 
     for (int i = 0; i < stk->array_size; i++)
-        printf("array[%d] = " FORMAT_OF_DATA "\n", i, *(stk->array + i));
+        printf ("array[%d] = " FORMAT_OF_DATA "\n", i, *(stk->array + i));
 
     printf ("=============================================================================\n");
 
     for (int i = stk->array_size; i < stk->Max_size; i++)
-        printf("array[%d] = " FORMAT_OF_DATA "\n", i, *(stk->array + i));
+        printf ("array[%d] = " FORMAT_OF_DATA "\n", i, *(stk->array + i));
 
     printf ("\n");
     }
@@ -129,37 +132,37 @@ bool stack_verify (struct stack* stk)
 
     if (stk == NULL)
         {
-        printf("ERROR: stack address = NULL\n");
+        printf ("ERROR: stack address = NULL\n");
         return false;
         }
 
     if (stk->array_size < 0)
         {
-        printf("ERROR: array_size = %d (must be >= 0)\n", stk->array_size);
+        printf ("ERROR: array_size = %d (must be >= 0)\n", stk->array_size);
         verification = false;
         }
 
     if (stk->array_size == 0)
-        printf("WARNING: array_size = %d (no elements to pop)\n", stk->array_size);
+        printf ("WARNING: array_size = %d (no elements to pop)\n", stk->array_size);
 
     if (stk->array_size == stk->Max_size)
-        printf("WARNING: array_size = Max_size = %d (element cannot be pushed)\n", stk->array_size);
+        printf ("WARNING: array_size = Max_size = %d (elements cannot be pushed)\n", stk->array_size);
 
     if (stk->array_size > stk->Max_size)
         {
-        printf("ERROR: stack is full (array_size > Max_size (%d > %d))\n", stk->array_size, stk->Max_size);
+        printf ("ERROR: stack is full (array_size > Max_size (%d > %d))\n", stk->array_size, stk->Max_size);
         verification = false;
         }
 
     if (stk->array == NULL)
         {
-        printf("ERROR: stack->array address = NULL\n");
+        printf ("ERROR: stack->array address = NULL\n");
         verification = false;
         }
 
 
     if (verification)
-        printf("Verified\n\n");
+        printf ("Verified\n\n");
 
     return verification;
     }
@@ -172,6 +175,5 @@ void increase_stack_size (struct stack* stk)
 
     realloc (stk->array, stk->Max_size);
 
-    printf("stack size [%d] increased (now: [%d])\n", stk->Max_size / 2, stk->Max_size);
+    printf ("stack size [%d] increased (now: [%d])\n", stk->Max_size / 2, stk->Max_size);
     }
-
