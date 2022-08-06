@@ -31,7 +31,7 @@ void stack_dump (const struct stack* stk);
 bool stack_init (struct stack* stk)
     {
     stk->array_size = 0;
-    stk->Max_size = 2;
+    stk->Max_size = 20;
     stk->array = (type_of_data*) calloc (stk->Max_size, sizeof (*stk->array));
 
     return true;
