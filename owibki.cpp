@@ -7,39 +7,44 @@
 #define StackPop  pop
 
 
+#define DEBUG_MODE 1
+
+#if 
+
 typedef struct Stack_t_ {
     char**          array;
     int             currentSize;
     int             maxSize;
 } Stack_t;
 
-enum StkErrors {
+enum StkError {
     NOERR            =  0,
-    STKBADALLOC      =  4,
+    ARRBADALLOC      =  4,
     DATABADALLOC     =  5,
     STKUNDERFLOW     = -1,
     STKOWERFLOW      =  1488,
     STKFAILREALLOC   =  333,
     DATAFAILREALLOC  =  17,
-    FATALERROR       =  3558
-    
+    FATALERROR       =  3558 
 };
 
 //=============================================================================================================================================
 
-Stack_t*    ConstructStack  (int size);
-void        DestructStack   (Stack_t* stk);
-Stack_t*    ResizeStack     (Stack_t* stk);
+enum StkError   ConstructStack  (Stack_t* stk, int siz);
+enum StkError   DestructStack   (Stack_t* stk);
+enum StkError   ResizeStack     (Stack_t* stk);
 
-bool        StackPush       (Stack_t* stk, const char* data);
-bool        StackPop        (Stack_t* stk, char* data);
+enum StkError   StackPush       (Stack_t* stk, const char* data);
+enum StkError   StackPop        (Stack_t* stk, char* data);
 
-void        StackDump       (Stack_t* stk);
+void            StackDump       (Stack_t* stk);
 
 //=============================================================================================================================================
 
 int main () {
-    Stack_t* stack = ConstructStack (9);
+    Stack_t stk = {}; /*(Stack_t*) calloc (1, sizeof(Stack_t)); */
+    Stack_t* stack = &stk;
+    ConstructStack (stack, 9);
     push (stack, "eber");
     push (stack, "vls");
     push (stack, "wweqweqewqeqw");
@@ -61,62 +66,61 @@ int main () {
     return 0;
 }
 
-Stack_t* ConstructStack (int size) {
+enum StkError ConstructStack (Stack_t* stk, int size) {
     
-    Stack_t* stk = (Stack_t*) calloc (1   , sizeof (Stack_t));
     char**   arr = (char**)   calloc (size, sizeof (char*));
+    if (arr == NULL)
+        return ARRBADALLOC;
     
     stk->array       = arr;
     stk->currentSize = 0;
     stk->maxSize     = size;
-
-    return stk;
+//add defend 
+//add hash
+    return NOERR;
 }
 
-void DestructStack (Stack_t* stk) {
+enum StkError DestructStack (Stack_t* stk) {
     
     for (int i = 0; i < stk->currentSize + 1; i++)
         free (stk->array[i]); 
+    
     free (stk->array);
     free (stk);
-    return;
+    return NOERR;
 }
 
-bool StackPush (Stack_t* stk, const char* value) { 
+enum StkError StackPush (Stack_t* stk, const char* value) { 
 
-    if (stk->currentSize < stk->maxSize) {
+    if (stk->currentSize >= stk->maxSize)  
+        return STKOWERFLOW;
+    
+    if (stk->array[stk->currentSize] == NULL) {
+        stk->array[stk->currentSize] = (char*) calloc (strlen(value) + 1, sizeof (char)); 
         if (stk->array[stk->currentSize] == NULL)
-            stk->array[stk->currentSize] = (char*) calloc (strlen(value) + 1, sizeof (char));    
-             
-        else if (strlen(stk->array[stk->currentSize]) < strlen(value)) {
-            char* ptr = (char*) realloc (stk->array[stk->currentSize], strlen(value) + 1);
-            if (ptr == NULL) {
-                printf ("ERROR: string is too short to contain data argument and cannot be realloced");
-                return false;
-            }
-        }
-
-        strcpy (stk->array[stk->currentSize++], value);
-        printf ("Pushed-> %s\n", value);
-        return true;
+            return DATABADALLOC;     
+    }
+        
+    else if (strlen(stk->array[stk->currentSize]) < strlen(value)) {
+        char* ptr = (char*) realloc (stk->array[stk->currentSize], strlen(value) + 1);
+        if (ptr == NULL) 
+            return DATAFAILREALLOC;
     }
 
-    printf ("Undefined ERROR: cannot push string-> %s\n", value);
-    return false;
+    strcpy (stk->array[stk->currentSize++], value);
+    printf ("Pushed-> %s\n", value);
+    return NOERR;
 }
 
-bool StackPop (Stack_t* stk, char* dest) { 
+enum StkError StackPop (Stack_t* stk, char* dest) { 
 
-    if (stk->currentSize > 0) {
-        stk->currentSize--;
-        strcpy (dest, stk->array[stk->currentSize]);
+    if (stk->currentSize <= 0)
+        return STKUNDERFLOW;
 
-        printf ("Popped %s\n", dest);
-        return true;
-    }
-
-    printf ("ERROR: cannot pop element from empty stack\n");
-    return false;
+    stk->currentSize--;
+    strcpy (dest, stk->array[stk->currentSize]);
+    printf ("Popped %s\n", dest);
+    return NOERR;
 }
 
 void StackDump (Stack_t* stk) {
@@ -134,17 +138,12 @@ void StackDump (Stack_t* stk) {
     return;
 }
 
-Stack_t* ResizeStack (Stack_t* stk) {
+enum StkError ResizeStack (Stack_t* stk) {
 
     stk->maxSize *= 2;
     Stack_t* ptr = (Stack_t*) realloc (stk, stk->maxSize);
+    if (ptr == NULL)
+        return STKFAILREALLOC;
 
-    if (ptr) { 
-        printf ("realloced successfully\n");
-        return ptr;
-    }
-    else {
-        printf ("Resize failed\n");
-        return stk;
-    }
+    return NOERR;
 }
