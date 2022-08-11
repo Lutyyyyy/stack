@@ -90,7 +90,7 @@ enum StkError DestructStack (Stack_t* stk) {
     return NOERR;
 }
 
-enum StkError StackPush (Stack_t* stk, const char* value) { 
+enum StkError StackPush (Stack_t* stk, const char* value, D) { 
 
     if (stk->currentSize >= stk->maxSize)  
         return STKOWERFLOW;
