@@ -7,12 +7,12 @@
 Everything is OK
 
 current size =    1
-capacity     =    9
+capacity     =    3
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
@@ -33,12 +33,12 @@ Other elements of stack are undefined
 Everything is OK
 
 current size =    2
-capacity     =    9
+capacity     =    3
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
@@ -60,12 +60,12 @@ Other elements of stack are undefined
 Everything is OK
 
 current size =    3
-capacity     =    9
+capacity     =    3
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
@@ -87,13 +87,13 @@ Other elements of stack are undefined
 
 Everything is OK
 
-current size =    3
-capacity     =    9
+current size =    4
+capacity     =    6
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
@@ -101,6 +101,7 @@ Rcanary value = 3491434170
 arr[  0] = "13"
 arr[  1] = "157"
 arr[  2] = "132"
+arr[  3] = "2"
 ---------------------
 
 Other elements of stack are undefined
@@ -115,19 +116,22 @@ Other elements of stack are undefined
 
 Everything is OK
 
-current size =    2
-capacity     =    9
+current size =    5
+capacity     =    6
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
 ---------------------
 arr[  0] = "13"
 arr[  1] = "157"
+arr[  2] = "132"
+arr[  3] = "2"
+arr[  4] = "21"
 ---------------------
 
 Other elements of stack are undefined
@@ -142,20 +146,23 @@ Other elements of stack are undefined
 
 Everything is OK
 
-current size =    3
-capacity     =    9
+current size =    6
+capacity     =    6
 
-Lcanary pointer = 0x4a482c0
+Lcanary pointer = 0x7fffd11fd4b0
 Lcanary value = 2981802170
 
-Rcanary pointer = 0x4a482ec
+Rcanary pointer = 0x7fffd11fd4c4
 Rcanary value = 3491434170
 
       N    data
 ---------------------
 arr[  0] = "13"
 arr[  1] = "157"
-arr[  2] = "2"
+arr[  2] = "132"
+arr[  3] = "2"
+arr[  4] = "21"
+arr[  5] = "201"
 ---------------------
 
 Other elements of stack are undefined
@@ -167,88 +174,13 @@ Other elements of stack are undefined
 	Dump No. 7
 
 ===========================================================================
+An error has occured in file: stack.cpp
 
-Everything is OK
+Detected in Line: 58 
 
-current size =    4
-capacity     =    9
+While executing function: StkError push(Stack_t*, DataType)
 
-Lcanary pointer = 0x4a482c0
-Lcanary value = 2981802170
-
-Rcanary pointer = 0x4a482ec
-Rcanary value = 3491434170
-
-      N    data
----------------------
-arr[  0] = "13"
-arr[  1] = "157"
-arr[  2] = "2"
-arr[  3] = "21"
----------------------
-
-Other elements of stack are undefined
-===========================================================================
-
-
-===========================================================================
-
-	Dump No. 8
-
-===========================================================================
-
-Everything is OK
-
-current size =    5
-capacity     =    9
-
-Lcanary pointer = 0x4a482c0
-Lcanary value = 2981802170
-
-Rcanary pointer = 0x4a482ec
-Rcanary value = 3491434170
-
-      N    data
----------------------
-arr[  0] = "13"
-arr[  1] = "157"
-arr[  2] = "2"
-arr[  3] = "21"
-arr[  4] = "201"
----------------------
-
-Other elements of stack are undefined
-===========================================================================
-
-
-===========================================================================
-
-	Dump No. 9
-
-===========================================================================
-
-Everything is OK
-
-current size =    6
-capacity     =    9
-
-Lcanary pointer = 0x4a482c0
-Lcanary value = 2981802170
-
-Rcanary pointer = 0x4a482ec
-Rcanary value = 3491434170
-
-      N    data
----------------------
-arr[  0] = "13"
-arr[  1] = "157"
-arr[  2] = "2"
-arr[  3] = "21"
-arr[  4] = "201"
-arr[  5] = "41"
----------------------
-
-Other elements of stack are undefined
+Error code is 1488
 ===========================================================================
 
 
